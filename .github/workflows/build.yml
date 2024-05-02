@@ -2,11 +2,27 @@ name: Build
 
 on:
   workflow_dispatch:
+    inputs:
+      skip_tests:
+        default: false
+        description:
+          Ignore tests job if this flag is set
+        type: boolean
+        required: false
+
   pull_request:
     branches:
     - main
 
 jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Tests
+        if: ${{ !inputs.skip_tests }}
+        run: echo "Running tests"
+
+
   build:
     runs-on: ubuntu-latest
     steps:
